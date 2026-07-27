@@ -1,0 +1,521 @@
+﻿@model IEnumerable<HotelManagement.Models.CheckOut>
+
+@{
+    ViewData["Title"] = "Check Out";
+}
+
+<div class="container-fluid mt-3">
+
+    <div class="card shadow">
+
+        <div class="card-header bg-danger text-white">
+
+            <h4>Guest Check-Out</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <input type="hidden" id="CheckOutId" />
+            <input type="hidden" id="CheckInId" />
+            <input type="hidden" id="GuestId" />
+            <input type="hidden" id="RoomId" />
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Booking No</label>
+                    <select id="BookingId" class="form-control" asp-items="ViewBag.Bookings">
+                        <option value="">Select Booking</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Guest Name</label>
+                    <input type="text" id="GuestName" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Room Number</label>
+                    <input type="text" id="RoomNumber" class="form-control" readonly />
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label>Check-In Date</label>
+                    <input type="date" id="CheckInDate" class="form-control"  />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Check-Out Date</label>
+                    <input type="date" id="CheckOutDateTime" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Total Days</label>
+                    <input type="number" id="TotalDays" class="form-control"  />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Room Charge</label>
+                    <input type="number" id="RoomCharge" class="form-control" onkeyup="CalculateBill()" />
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label>Extra Charge</label>
+                    <input type="number" id="ExtraCharge" value="0" class="form-control" onkeyup="CalculateBill()" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Discount</label>
+                    <input type="number" id="Discount" value="0" class="form-control" onkeyup="CalculateBill()" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>GST</label>
+                    <input type="number" id="GST" value="0" class="form-control" onkeyup="CalculateBill()" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Grand Total</label>
+                    <input type="number" id="GrandTotal" class="form-control" readonly />
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Paid Amount</label>
+                    <input type="number" id="PaidAmount" value="0" class="form-control" onkeyup="CalculateBill()" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Balance Amount</label>
+                    <input type="number" id="BalanceAmount" class="form-control" readonly />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Remarks</label>
+                    <input type="text" id="Remarks" class="form-control" />
+                </div>
+
+            </div>
+
+            <br />
+
+            <button class="btn btn-success" onclick="SaveCheckOut()">
+                <i class="fa fa-save"></i> Save
+            </button>
+
+            <button class="btn btn-primary" onclick="PrintInvoice()">
+                <i class="fa fa-print"></i> Print Invoice
+            </button>
+
+            <button class="btn btn-secondary" onclick="ClearData()">
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="card">
+
+        <div class="card-header bg-dark text-white">
+
+            <h5>Check-Out List</h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-hover">
+
+                <thead class="table-secondary">
+
+                    <tr>
+
+                        <th>Booking No</th>
+                        <th>Guest</th>
+                        <th>Room</th>
+                        <th>Check-In</th>
+                        <th>Check-Out</th>
+                        <th>Grand Total</th>
+                        <th>Paid</th>
+                        <th>Balance</th>
+                        <th>Action</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+
+                            <td>@item.BookingNo</td>
+                            <td>@item.GuestName</td>
+                            <td>@item.RoomNumber</td>
+                            <td>@item.CheckInDateTime.ToString("dd/MM/yyyy")</td>
+                            <td>@item.CheckOutDateTime.ToString("dd/MM/yyyy")</td>
+                            <td>@item.GrandTotal</td>
+                            <td>@item.PaidAmount</td>
+                            <td>@item.BalanceAmount</td>
+
+                            <td>
+
+                                <button class="btn btn-warning btn-sm"
+                                        onclick="Edit(@item.CheckOutId)">
+                                    Edit
+                                </button>
+
+                                <button class="btn btn-danger btn-sm"
+                                        onclick="Delete(@item.CheckOutId)">
+                                    Delete
+                                </button>
+
+                            </td>
+
+                        </tr>
+                    }
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+
+    $(document).ready(function () {
+
+        $("#BookingId").change(function () {
+
+            var bookingId = $(this).val();
+
+            if (bookingId != "") {
+
+                $.ajax({
+
+                    url: '/CheckOut/GetBookingDetails',
+
+                    type: 'GET',
+
+                    data: { bookingId: bookingId },
+
+                    success: function (res) {
+
+                        $("#CheckInId").val(res.checkInId);
+
+                        $("#GuestId").val(res.guestId);
+
+                        $("#RoomId").val(res.roomId);
+
+                        $("#GuestName").val(res.guestName);
+
+                        $("#RoomNumber").val(res.roomNumber);
+
+                        $("#CheckInDate").val(res.checkInDate.split('T')[0]);
+
+                        $("#RoomCharge").val(res.roomCharge);
+
+                        CalculateTotalDays();
+
+                        CalculateBill();
+
+                    }
+
+                });
+
+            }
+
+        });
+
+        $("#CheckOutDateTime").change(function () {
+
+            CalculateTotalDays();
+
+            CalculateBill();
+
+        });
+
+    });
+
+    function CalculateTotalDays() {
+
+        var checkIn = new Date($("#CheckInDate").val());
+
+        var checkOut = new Date($("#CheckOutDateTime").val());
+
+        if ($("#CheckInDate").val() == "" || $("#CheckOutDateTime").val() == "")
+            return;
+
+        var diff = checkOut - checkIn;
+
+        var days = Math.ceil(diff / (1000 * 60 * 60 * 24));
+
+        if (days <= 0)
+            days = 1;
+
+        $("#TotalDays").val(days);
+
+    }
+
+    function CalculateBill() {
+
+        var roomCharge = parseFloat($("#RoomCharge").val()) || 0;
+
+        var totalDays = parseFloat($("#TotalDays").val()) || 1;
+
+        var extra = parseFloat($("#ExtraCharge").val()) || 0;
+
+        var discount = parseFloat($("#Discount").val()) || 0;
+
+        var gst = parseFloat($("#GST").val()) || 0;
+
+        var paid = parseFloat($("#PaidAmount").val()) || 0;
+
+        var roomTotal = roomCharge * totalDays;
+
+        var grandTotal = roomTotal + extra + gst - discount;
+
+        var balance = grandTotal - paid;
+
+        $("#GrandTotal").val(grandTotal.toFixed(2));
+
+        $("#BalanceAmount").val(balance.toFixed(2));
+
+    }
+
+    function SaveCheckOut() {
+
+        var obj = {
+
+            CheckOutId: $("#CheckOutId").val(),
+
+            CheckInId: $("#CheckInId").val(),
+
+            BookingId: $("#BookingId").val(),
+
+            GuestId: $("#GuestId").val(),
+
+            RoomId: $("#RoomId").val(),
+
+            CheckOutDateTime: $("#CheckOutDateTime").val(),
+
+            TotalDays: $("#TotalDays").val(),
+
+            RoomCharge: $("#RoomCharge").val(),
+
+            ExtraCharge: $("#ExtraCharge").val(),
+
+            Discount: $("#Discount").val(),
+
+            GST: $("#GST").val(),
+
+            GrandTotal: $("#GrandTotal").val(),
+
+            PaidAmount: $("#PaidAmount").val(),
+
+            BalanceAmount: $("#BalanceAmount").val(),
+
+            Remarks: $("#Remarks").val()
+
+        };
+
+        $.ajax({
+
+            url: '/CheckOut/Save',
+
+            type: 'POST',
+
+            data: obj,
+
+            success: function (res) {
+
+                if (res.success) {
+
+                    alert(res.message);
+
+                    location.reload();
+
+                }
+                else {
+
+                    alert(res.message);
+
+                }
+
+            },
+
+            error: function () {
+
+                alert("Something went wrong.");
+
+            }
+
+        });
+
+    }
+
+    function Edit(id) {
+
+        $.ajax({
+
+            url: '/CheckOut/GetById',
+
+            type: 'GET',
+
+            data: { id: id },
+
+            success: function (res) {
+
+                $("#CheckOutId").val(res.checkOutId);
+
+                $("#CheckInId").val(res.checkInId);
+
+               $("#BookingId").val(res.bookingId).trigger("change");
+
+                $("#GuestId").val(res.guestId);
+
+                $("#RoomId").val(res.roomId);
+
+                $("#GuestName").val(res.guestName);
+
+                $("#RoomNumber").val(res.roomNumber);
+
+                $("#CheckInDate").val(res.checkInDate.split('T')[0]);
+
+                $("#CheckOutDateTime").val(res.checkOutDateTime.substring(0,10));
+
+                $("#TotalDays").val(res.totalDays);
+
+                $("#RoomCharge").val(res.roomCharge);
+
+                $("#ExtraCharge").val(res.extraCharge);
+
+                $("#Discount").val(res.discount);
+
+                $("#GST").val(res.gst);
+
+                $("#GrandTotal").val(res.grandTotal);
+
+                $("#PaidAmount").val(res.paidAmount);
+
+                $("#BalanceAmount").val(res.balanceAmount);
+
+                $("#Remarks").val(res.remarks);
+
+            }
+
+        });
+
+    }
+
+    function Delete(id) {
+
+        if (confirm("Are you sure you want to delete this record?")) {
+
+            $.ajax({
+
+                url: '/CheckOut/Delete',
+
+                type: 'POST',
+
+                data: { id: id },
+
+                success: function (res) {
+
+                    alert(res.message);
+
+                    location.reload();
+
+                }
+
+            });
+
+        }
+
+    }
+
+    function ClearData() {
+
+        $("#CheckOutId").val("");
+
+        $("#CheckInId").val("");
+
+        $("#BookingId").val("");
+
+        $("#GuestId").val("");
+
+        $("#RoomId").val("");
+
+        $("#GuestName").val("");
+
+        $("#RoomNumber").val("");
+
+        $("#CheckInDate").val("");
+
+        $("#CheckOutDateTime").val("");
+
+        $("#TotalDays").val("");
+
+        $("#RoomCharge").val("");
+
+        $("#ExtraCharge").val("0");
+
+        $("#Discount").val("0");
+
+        $("#GST").val("0");
+
+        $("#GrandTotal").val("");
+
+        $("#PaidAmount").val("0");
+
+        $("#BalanceAmount").val("");
+
+        $("#Remarks").val("");
+
+    }
+
+    function PrintInvoice() {
+
+        var id = $("#CheckOutId").val();
+
+        if (id == "") {
+
+            alert("Please save the Check-Out first.");
+
+            return;
+
+        }
+
+        window.open('/Invoice/Print?id=' + id, '_blank');
+
+    }
+
+</script>

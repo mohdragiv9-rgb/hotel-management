@@ -1,0 +1,155 @@
+﻿@model IEnumerable<HotelManagement.Models.CheckIn>
+
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header bg-success text-white">
+
+            <h4>Guest Check-In</h4>
+
+        </div>
+
+        <div class="card-body">
+
+            <input type="hidden" id="CheckInId" />
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label>Booking</label>
+
+                    <select id="BookingId"
+                            class="form-control"
+                            asp-items="ViewBag.Bookings">
+
+                        <option value="">Select Booking</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Check In Date Time</label>
+
+                    <input type="datetime-local"
+                           id="CheckInDateTime"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Total Guest</label>
+
+                    <input type="number"
+                           id="TotalGuest"
+                           class="form-control" />
+
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label>ID Proof Type</label>
+
+                    <select id="IDProofType"
+                            class="form-control">
+
+                        <option>Aadhaar</option>
+
+                        <option>PAN</option>
+
+                        <option>Passport</option>
+
+                        <option>Driving Licence</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>ID Proof No</label>
+
+                    <input type="text"
+                           id="IDProofNo"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Remarks</label>
+
+                    <input type="text"
+                           id="Remarks"
+                           class="form-control" />
+
+                </div>
+
+            </div>
+
+            <br />
+
+            <button class="btn btn-success"
+                    onclick="SaveCheckIn()">
+
+                Check-In
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+
+    function SaveCheckIn(){
+
+    var obj={
+
+    BookingId:$("#BookingId").val(),
+
+    CheckInDateTime:$("#CheckInDateTime").val(),
+
+    TotalGuest:$("#TotalGuest").val(),
+
+    IDProofType:$("#IDProofType").val(),
+
+    IDProofNo:$("#IDProofNo").val(),
+
+    Remarks:$("#Remarks").val()
+
+    };
+
+    $.ajax({
+
+    url:'/CheckIn/Save',
+
+    type:'POST',
+
+    data:obj,
+
+    success:function(res){
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+
+</script>

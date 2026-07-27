@@ -1,0 +1,276 @@
+﻿@model IEnumerable<HotelManagement.Models.Payment>
+
+@{
+    ViewData["Title"] = "Payment";
+}
+
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header bg-success text-white">
+            <h4>Payment Entry</h4>
+        </div>
+
+        <div class="card-body">
+
+            <input type="hidden" id="PaymentId" />
+
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Booking</label>
+                    <select id="BookingId" class="form-control"
+                            asp-items="ViewBag.Bookings">
+                        <option value="">Select Booking</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Guest</label>
+                    <select id="GuestId" class="form-control"
+                            asp-items="ViewBag.Guests">
+                        <option value="">Select Guest</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Amount</label>
+                    <input type="number"
+                           id="Amount"
+                           class="form-control" />
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label>Payment Mode</label>
+
+                    <select id="PaymentMode"
+                            class="form-control">
+
+                        <option>Cash</option>
+                        <option>UPI</option>
+                        <option>Card</option>
+                        <option>Net Banking</option>
+
+                    </select>
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Transaction No</label>
+
+                    <input type="text"
+                           id="TransactionNo"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Remarks</label>
+
+                    <input type="text"
+                           id="Remarks"
+                           class="form-control" />
+
+                </div>
+
+            </div>
+
+            <br />
+
+            <button class="btn btn-success"
+                    onclick="SavePayment()">
+                Save Payment
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="ClearData()">
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Booking</th>
+
+                <th>Guest</th>
+
+                <th>Amount</th>
+
+                <th>Mode</th>
+
+                <th>Transaction</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.BookingNo</td>
+
+                    <td>@item.GuestName</td>
+
+                    <td>@item.Amount</td>
+
+                    <td>@item.PaymentMode</td>
+
+                    <td>@item.TransactionNo</td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                onclick="Edit(@item.PaymentId)">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-danger btn-sm"
+                                onclick="Delete(@item.PaymentId)">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<script>
+
+    function SavePayment(){
+
+    var obj={
+
+    PaymentId:$("#PaymentId").val(),
+
+    BookingId:$("#BookingId").val(),
+
+    GuestId:$("#GuestId").val(),
+
+    Amount:$("#Amount").val(),
+
+    PaymentMode:$("#PaymentMode").val(),
+
+    TransactionNo:$("#TransactionNo").val(),
+
+    Remarks:$("#Remarks").val()
+
+    };
+
+    $.ajax({
+
+    url:'/Payment/Save',
+
+    type:'POST',
+
+    data:obj,
+
+    success:function(res){
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+
+    function Delete(id){
+
+    if(confirm("Delete Payment?")){
+
+    $.ajax({
+
+    url:'/Payment/Delete',
+
+    type:'POST',
+
+    data:{id:id},
+
+    success:function(res){
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+
+    }
+
+    function ClearData(){
+
+    $("#PaymentId").val("");
+
+    $("#BookingId").val("");
+
+    $("#GuestId").val("");
+
+    $("#Amount").val("");
+
+    $("#PaymentMode").val("Cash");
+
+    $("#TransactionNo").val("");
+
+    $("#Remarks").val("");
+
+    }
+
+        function Edit(id){
+
+        $.ajax({
+
+            url:'/Payment/GetById',
+            type:'GET',
+            data:{id:id},
+
+            success:function(res){
+
+                $("#PaymentId").val(res.paymentId);
+                $("#BookingId").val(res.bookingId);
+                $("#GuestId").val(res.guestId);
+                $("#Amount").val(res.amount);
+                $("#PaymentMode").val(res.paymentMode);
+                $("#TransactionNo").val(res.transactionNo);
+                $("#Remarks").val(res.remarks);
+
+            }
+
+        });
+
+    }
+</script>

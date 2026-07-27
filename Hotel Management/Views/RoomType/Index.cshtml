@@ -1,0 +1,214 @@
+﻿@model IEnumerable<HotelManagement.Models.RoomType>
+
+@{
+    ViewData["Title"] = "Room Type";
+}
+
+<div class="container mt-4">
+
+    <div class="card">
+
+        <div class="card-header bg-primary text-white">
+            <h4>Room Type Master</h4>
+        </div>
+
+        <div class="card-body">
+
+            <input type="hidden" id="RoomTypeId" />
+
+            <div class="row">
+
+                <div class="col-md-4">
+
+                    <label>Room Type Name</label>
+
+                    <input type="text"
+                           id="RoomTypeName"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Price</label>
+
+                    <input type="number"
+                           id="Price"
+                           class="form-control" />
+
+                </div>
+
+                <div class="col-md-4">
+
+                    <label>Description</label>
+
+                    <textarea id="Description"
+                              class="form-control"></textarea>
+
+                </div>
+
+            </div>
+
+            <br />
+
+            <button class="btn btn-success"
+                    onclick="Save()">
+                Save
+            </button>
+
+            <button class="btn btn-secondary"
+                    onclick="ClearData()">
+                Reset
+            </button>
+
+        </div>
+
+    </div>
+
+    <br />
+
+    <table class="table table-bordered table-hover">
+
+        <thead class="table-dark">
+
+            <tr>
+
+             @*    <th>ID</th> *@
+
+                <th>Room Type</th>
+
+                <th>Price</th>
+
+                <th>Description</th>
+
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    @* <td>@item.RoomTypeId</td *@
+
+                    <td>@item.RoomTypeName</td>
+
+                    <td>@item.Price</td>
+
+                    <td>@item.Description</td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                onclick="Edit(@item.RoomTypeId)">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-danger btn-sm"
+                                onclick="Delete(@item.RoomTypeId)">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+            }
+            <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        </tbody>
+
+    </table>
+
+</div>
+<script>
+
+    function Save(){
+
+    var obj={
+
+    RoomTypeId:$("#RoomTypeId").val(),
+
+    RoomTypeName:$("#RoomTypeName").val(),
+
+    Price:$("#Price").val(),
+
+    Description:$("#Description").val()
+
+    };
+
+    $.ajax({
+
+    url:'/RoomType/Save',
+
+    type:'POST',
+
+    data:obj,
+
+    success:function(res){
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+    function Edit(id){
+
+    $.get('/RoomType/GetById?id=' + id, function (data) {
+
+    $("#RoomTypeId").val(data.roomTypeId);
+
+    $("#RoomTypeName").val(data.roomTypeName);
+
+    $("#Price").val(data.price);
+
+    $("#Description").val(data.description);
+
+    });
+
+    }
+
+    function Delete(id){
+
+    if(confirm("Delete Record?")){
+
+    $.ajax({
+
+    url: '/RoomType/Delete',
+
+    type: 'POST',
+
+    data: { id: id },
+
+    success: function (res) {
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+
+    }
+    function ClearData(){
+
+    $("#RoomTypeId").val("");
+
+    $("#RoomTypeName").val("");
+
+    $("#Price").val("");
+
+    $("#Description").val("");
+
+    }
+
+</script>

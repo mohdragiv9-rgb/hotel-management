@@ -1,0 +1,287 @@
+﻿@model IEnumerable<HotelManagement.Models.Booking>
+
+@{
+    ViewData["Title"] = "Booking";
+}
+
+<div class="container mt-4">
+
+    <div class="card">
+        <div class="card-header bg-primary text-white">
+            <h4>Booking Master</h4>
+        </div>
+
+        <div class="card-body">
+
+            <input type="hidden" id="BookingId" />
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label>Booking No</label>
+                   @*  <input type="text" id="BookingNo" class="form-control" /> *@
+                    <input type="text" id="BookingNo" class="form-control"value="@ViewBag.BookingNo" readonly />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Guest</label>
+                    <select id="GuestId" class="form-control" asp-items="ViewBag.Guests">
+                        <option value="">Select Guest</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Room</label>
+                    <select id="RoomId" class="form-control" asp-items="ViewBag.Rooms">
+                        <option value="">Select Room</option>
+                    </select>
+                </div>
+
+                <div class="col-md-3">
+                    <label>Adults</label>
+                    <input type="number" id="Adults" class="form-control" value="1" />
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label>Children</label>
+                    <input type="number" id="Children" class="form-control" value="0" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Check In</label>
+                    <input type="date" id="CheckInDate" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Check Out</label>
+                    <input type="date" id="CheckOutDate" class="form-control" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Total Amount</label>
+                    <input type="number" id="TotalAmount" class="form-control" />
+                </div>
+
+            </div>
+
+            <br />
+
+            <div class="row">
+
+                <div class="col-md-3">
+                    <label>Advance Amount</label>
+                    <input type="number"
+                           id="AdvanceAmount"
+                           class="form-control"
+                           onkeyup="CalculateBalance()" />
+                </div>
+
+                <div class="col-md-3">
+                    <label>Balance Amount</label>
+                    <input type="number"
+                           id="BalanceAmount"
+                           class="form-control"
+                           readonly />
+                </div>
+
+                <div class="col-md-6">
+                    <label>Remarks</label>
+                    <textarea id="Remarks"
+                              class="form-control"></textarea>
+                </div>
+
+            </div>
+
+            <br />
+
+            <button class="btn btn-success" onclick="SaveBooking()">
+                Save
+            </button>
+
+            <button class="btn btn-secondary" onclick="ClearData()">
+                Reset
+            </button>
+
+        </div>
+    </div>
+
+    <br />
+
+    <table class="table table-bordered table-striped">
+
+        <thead class="table-dark">
+
+            <tr>
+
+                <th>Booking No</th>
+                <th>Guest</th>
+                <th>Room</th>
+                <th>Check In</th>
+                <th>Check Out</th>
+                <th>Total</th>
+                <th>Advance</th>
+                <th>Balance</th>
+                <th>Action</th>
+
+            </tr>
+
+        </thead>
+
+        <tbody>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+
+                    <td>@item.BookingNo</td>
+                    <td>@item.GuestName</td>
+                    <td>@item.RoomNumber</td>
+                    <td>@item.CheckInDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.CheckOutDate.ToString("dd/MM/yyyy")</td>
+                    <td>@item.TotalAmount</td>
+                    <td>@item.AdvanceAmount</td>
+                    <td>@item.BalanceAmount</td>
+
+                    <td>
+
+                        <button class="btn btn-warning btn-sm"
+                                onclick="Edit(@item.BookingId)">
+                            Edit
+                        </button>
+
+                        <button class="btn btn-danger btn-sm"
+                                onclick="Delete(@item.BookingId)">
+                            Delete
+                        </button>
+
+                    </td>
+
+                </tr>
+            }
+
+        </tbody>
+
+    </table>
+
+</div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+<script>
+
+    function CalculateBalance(){
+
+    var total = Number($("#TotalAmount").val());
+
+    var advance = Number($("#AdvanceAmount").val());
+
+    $("#BalanceAmount").val(total - advance);
+
+    }
+
+    function SaveBooking(){
+
+    var obj={
+
+    BookingId:$("#BookingId").val(),
+    BookingNo:$("#BookingNo").val(),
+    GuestId:$("#GuestId").val(),
+    RoomId:$("#RoomId").val(),
+    CheckInDate:$("#CheckInDate").val(),
+    CheckOutDate:$("#CheckOutDate").val(),
+    Adults:$("#Adults").val(),
+    Children:$("#Children").val(),
+    TotalAmount:$("#TotalAmount").val(),
+    AdvanceAmount:$("#AdvanceAmount").val(),
+    BalanceAmount:$("#BalanceAmount").val(),
+    Remarks:$("#Remarks").val()
+
+    };
+
+    $.ajax({
+
+    url:'/Booking/Save',
+
+    type:'POST',
+
+    data:obj,
+
+    success:function(res){
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+
+    function ClearData(){
+
+    $("#BookingId").val("");
+    $("#BookingNo").val("");
+    $("#GuestId").val("");
+    $("#RoomId").val("");
+    $("#Adults").val("1");
+    $("#Children").val("0");
+    $("#CheckInDate").val("");
+    $("#CheckOutDate").val("");
+    $("#TotalAmount").val("");
+    $("#AdvanceAmount").val("");
+    $("#BalanceAmount").val("");
+    $("#Remarks").val("");
+
+    }
+    function Edit(id){
+
+    $.get('/Booking/GetById?id='+id,function(data){
+
+    $("#BookingId").val(data.bookingId);
+    $("#BookingNo").val(data.bookingNo);
+    $("#GuestId").val(data.guestId);
+    $("#RoomId").val(data.roomId);
+    $("#CheckInDate").val(data.checkInDate.substring(0,10));
+    $("#CheckOutDate").val(data.checkOutDate.substring(0,10));
+    $("#Adults").val(data.adults);
+    $("#Children").val(data.children);
+    $("#TotalAmount").val(data.totalAmount);
+    $("#AdvanceAmount").val(data.advanceAmount);
+    $("#BalanceAmount").val(data.balanceAmount);
+    $("#Remarks").val(data.remarks);
+
+    });
+
+    }
+    function Delete(id){
+
+    if(confirm("Are you sure to delete this booking?")){
+
+    $.ajax({
+
+    url:'/Booking/Delete',
+
+    type:'POST',
+
+    data:{id:id},
+
+    success:function(res){
+
+    alert(res.message);
+
+    location.reload();
+
+    }
+
+    });
+
+    }
+
+    }
+</script>

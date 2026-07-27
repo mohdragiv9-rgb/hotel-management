@@ -1,0 +1,222 @@
+﻿@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<div class="container mt-5">
+
+              <h2>Welcome
+                    <b>
+                   @Context.Session.GetString("FullName")
+                   </b>
+               </h2>
+                       <a asp-controller="Login"
+                         asp-action="Logout"
+                             class="btn btn-danger">
+                                  Logout
+                       </a>
+    <hr/>
+
+   
+    <div class="container-fluid">
+
+        <!-- First Row -->
+        <div class="row g-4">
+
+            <!-- Guest -->
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h4>Guests</h4>
+                        <a asp-controller="Guest"
+                           asp-action="Index"
+                           class="btn btn-light">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room Type -->
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h4>Room Type</h4>
+                        <a asp-controller="RoomType"
+                           asp-action="Index"
+                           class="btn btn-light">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Room -->
+            <div class="col-md-3">
+                <div class="card bg-primary text-white">
+                    <div class="card-body">
+                        <h4>Rooms</h4>
+                        <a asp-controller="Room"
+                           asp-action="Index"
+                           class="btn btn-light">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Booking -->
+            <div class="col-md-3">
+                <div class="card bg-warning">
+                    <div class="card-body">
+                        <h4>Bookings</h4>
+                        <a asp-controller="Booking"
+                           asp-action="Index"
+                           class="btn btn-dark">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <br />
+
+        <!-- Second Row -->
+        <div class="row g-4">
+
+            <!-- Check-In -->
+            <div class="col-md-3">
+                <div class="card bg-secondary text-white">
+                    <div class="card-body">
+                        <h4>Check-In</h4>
+                        <a asp-controller="CheckIn"
+                           asp-action="Index"
+                           class="btn btn-light">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Check-Out -->
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h4>Check-Out</h4>
+                        <a asp-controller="CheckOut"
+                           asp-action="Index"
+                           class="btn btn-light">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Payment -->
+            <div class="col-md-3">
+                <div class="card bg-success text-white">
+                    <div class="card-body">
+                        <h4>Payment</h4>
+                        <a asp-controller="Payment"
+                           asp-action="Index"
+                           class="btn btn-light">
+                            Open
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <h4 style="align-items:center">Hotel Details</h4>
+
+@model HotelManagement.Models.DashboardViewModel
+
+<div class="container-fluid mt-4">
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5>Total Rooms</h5>
+                    <h2>@Model.TotalRooms</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5>Available Rooms</h5>
+                    <h2>@Model.AvailableRooms</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-danger text-white">
+                <div class="card-body">
+                    <h5>Occupied Rooms</h5>
+                    <h2>@Model.OccupiedRooms</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-warning">
+                <div class="card-body">
+                    <h5>Total Guests</h5>
+                    <h2>@Model.TotalGuests</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <br />
+
+    <div class="row">
+
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5>Bookings</h5>
+                    <h2>@Model.TotalBookings</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-secondary text-white">
+                <div class="card-body">
+                    <h5>Check In</h5>
+                    <h2>@Model.TotalCheckIn</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-dark text-white">
+                <div class="card-body">
+                    <h5>Check Out</h5>
+                    <h2>@Model.TotalCheckOut</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5>Total Revenue</h5>
+                    <h2>₹ @Model.TotalRevenue</h2>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>

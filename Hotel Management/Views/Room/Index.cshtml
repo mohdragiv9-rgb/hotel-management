@@ -1,0 +1,239 @@
+﻿@model IEnumerable<HotelManagement.Models.Room>
+
+@{
+    ViewData["Title"] = "Room";
+}
+<div class="container mt-4">
+    <div class="card">
+        <div class="card-header bg-success text-white">
+            <h4>Room Entry</h4>
+            </div>
+          <div class="row">
+
+          <div class="col-md-3">
+
+             <label>Room Number</label>
+
+              <input type="text"
+               class="form-control"
+               id="RoomNumber" />
+
+            </div>
+
+   
+               <div class="col-md-3">
+
+                <label>Room Type</label>
+
+                    <select id="RoomTypeId"
+                          class="form-control"
+                                asp-items="ViewBag.RoomTypes">
+
+                                 <option value="">Select</option>
+
+                        </select>
+
+                </div>
+
+    <div class="col-md-2">
+
+        <label>Floor</label>
+
+        <input type="number"
+               class="form-control"
+               id="FloorNo" />
+
+    </div>
+
+    <div class="col-md-2">
+
+        <label>Capacity</label>
+
+        <input type="number"
+               class="form-control"
+               id="Capacity" />
+
+    </div>
+
+</div>
+<div class="row mt-3">
+
+    <div class="col-md-3">
+
+        <label>Price</label>
+
+        <input type="number"
+               class="form-control"
+               id="Price" />
+
+    </div>
+
+    <div class="col-md-3">
+
+        <label>AC Type</label>
+
+        <select id="ACType"
+                class="form-control">
+
+            <option>AC</option>
+
+            <option>Non AC</option>
+
+        </select>
+
+    </div>
+
+    <div class="col-md-3">
+
+        <label>Status</label>
+
+        <select id="RoomStatus"
+                class="form-control">
+
+            <option>Available</option>
+
+            <option>Occupied</option>
+
+            <option>Maintenance</option>
+
+        </select>
+
+    </div>
+           
+           
+
+</div>
+<br />
+<br />
+        <button class="btn btn-success col-md-1"onclick="SaveRoom()">
+            Save
+        </button>
+<br />
+    </div>
+    
+</div>
+
+<table class="table table-bordered table-striped">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>Room Id</th>
+
+            <th>Room Number</th>
+
+            <th>Room Type</th>
+
+            <th>Room Type Name</th>
+
+            <th>Floor</th>
+
+            <th>Capacity</th>
+
+            <th>Price</th>
+
+            <th>  AC Type </th>
+
+            <th>Status</th>
+
+            <th>Action</th>
+        </tr>
+
+    </thead>
+    <br />
+    
+    <br />
+    <br />
+    <tbody>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+
+                <td>@item.RoomId</td>
+
+                <td>@item.RoomNumber</td>
+
+                <td>@item.RoomTypeId</td>
+
+                <td>@item.RoomTypeName</td>
+
+                <td>@item.FloorNo </td>
+
+                <td>@item.Capacity  </td>
+
+                <td>@item.Price </td>
+
+                <td>@item.ACType </td>
+
+                <td>@item.RoomStatus</td>
+
+                <td>@item.Description</td>
+
+               @*  <td>
+
+                    <button class="btn btn-warning btn-sm"
+                            onclick="Edit(@item.PaymentId)">
+                        Edit
+                    </button>
+
+                    <button class="btn btn-danger btn-sm"
+                            onclick="Delete(@item.PaymentId)">
+                        Delete
+                    </button>
+
+                </td> *@
+
+            </tr>
+        }
+
+    </tbody>
+
+</table>
+<br />
+
+<script>
+function SaveRoom(){
+
+var obj={
+
+RoomId:$("#RoomId").val(),
+
+RoomNumber:$("#RoomNumber").val(),
+
+RoomTypeId:$("#RoomTypeId").val(),
+
+FloorNo:$("#FloorNo").val(),
+
+Capacity:$("#Capacity").val(),
+
+Price:$("#Price").val(),
+
+ACType:$("#ACType").val(),
+
+RoomStatus:$("#RoomStatus").val(),
+
+Description:$("#Description").val()
+
+};
+
+$.ajax({
+
+url:'/Room/Save',
+
+type:'POST',
+
+data:obj,
+
+success:function(res){
+
+alert(res.message);
+
+location.reload();
+
+}
+
+});
+
+}
+</script>
