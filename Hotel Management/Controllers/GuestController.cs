@@ -55,6 +55,8 @@ namespace HotelManagement.Controllers
                 });
             }
         }
+
+        //testing git
         //testing git
         [HttpPost]
         public async Task<IActionResult> Delete(int id)
