@@ -11,7 +11,7 @@ namespace HotelManagement.Controllers
         {
             _dashboardRepository = dashboardRepository;
         }
-
+        //git practical
         public async Task<IActionResult> Index()
         {
             if (HttpContext.Session.GetString("UserName") == null)
