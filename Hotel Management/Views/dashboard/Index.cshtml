@@ -2,18 +2,22 @@
     ViewData["Title"] = "Dashboard";
 }
 
-<div class="container mt-5">
+ <div class="container mt-5">
 
-              <h2>Welcome
+              <h2 style="text-align:center;color:white">Welcome
                     <b>
                    @Context.Session.GetString("FullName")
                    </b>
                </h2>
+               <div class="logout">
                        <a asp-controller="Login"
-                         asp-action="Logout"
-                             class="btn btn-danger">
-                                  Logout
+                          asp-action="Logout"
+                           class="btn btn-danger ">
+                          Logout
                        </a>
+               </div>
+                      
+
     <hr/>
 
    
@@ -131,7 +135,7 @@
 
     </div>
 
-    <h4 style="align-items:center">Hotel Details</h4>
+    <h2 style="text-align:center ;color:White ;position:relative;top:10px;"><b>Hotel Details</b></h2>
 
 @model HotelManagement.Models.DashboardViewModel
 

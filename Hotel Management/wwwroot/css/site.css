@@ -29,4 +29,21 @@ body {
 .form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
   text-align: start;
 }
-
+body {
+    margin: 0;
+    padding: 0;
+   
+    background: linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)), url('/img/hotel3.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.logout{
+   position:absolute;
+   top:50px;
+   right:30px;
+    
+}
