@@ -11,20 +11,44 @@ namespace HotelManagement.Controllers
         private readonly IBookingRepository _bookingRepository;
         private readonly IGuestRepository _guestRepository;
         private readonly IPaymentRepository _repository;
+        private readonly ICheckOutRepository _checkOutRepository;
 
 
         public PaymentController(
             IPaymentRepository repository,
             IBookingRepository bookingRepository,
-            IGuestRepository guestRepository)
+            IGuestRepository guestRepository,
+            ICheckOutRepository checkOutRepository)
         {
             _repository = repository;
             _bookingRepository = bookingRepository;
             _guestRepository = guestRepository;
+            _checkOutRepository = checkOutRepository;
         }
 
+        //public async Task<IActionResult> Index()
+        //{
+        //    ViewBag.Bookings = new SelectList(
+        //        await _bookingRepository.GetAll(),
+        //        "BookingId",
+        //        "BookingNo");
+
+        //    ViewBag.Guests = new SelectList(
+        //        await _guestRepository.GetAll(),
+        //        "GuestId",
+        //        "GuestName");
+
+        //    var data = await _repository.GetAll();
+
+        //    return View(data);
+        //}
         public async Task<IActionResult> Index()
         {
+            ViewBag.CheckOuts = new SelectList(
+                await _checkOutRepository.GetAll(),
+                "CheckOutId",
+                "CheckOutId");
+
             ViewBag.Bookings = new SelectList(
                 await _bookingRepository.GetAll(),
                 "BookingId",
@@ -39,7 +63,6 @@ namespace HotelManagement.Controllers
 
             return View(data);
         }
-
         [HttpPost]
         public async Task<IActionResult> Save(Payment payment)
         {

@@ -19,6 +19,15 @@
             <div class="row">
 
                 <div class="col-md-4">
+                    <label>Check Out</label>
+                    <select id="CheckOutId"
+                            class="form-control"
+                            asp-items="ViewBag.CheckOuts">
+                        <option value="">SelectCheckOut</option>
+                    </select>
+                </div>
+               
+                <div class="col-md-4">
                     <label>Booking</label>
                     <select id="BookingId" class="form-control"
                             asp-items="ViewBag.Bookings">
@@ -34,13 +43,8 @@
                     </select>
                 </div>
 
-                <div class="col-md-4">
-                    <label>Amount</label>
-                    <input type="number"
-                           id="Amount"
-                           class="form-control" />
-                </div>
-
+                
+                
             </div>
 
             <br />
@@ -83,10 +87,21 @@
 
                 </div>
 
+                <div class="col-md-4">
+                    <label>Amount</label>
+                    <input type="number"
+                           id="Amount"
+                           class="form-control" />
+                </div>
             </div>
 
             <br />
+            
+              
 
+            
+            
+            
             <button class="btn btn-success"
                     onclick="SavePayment()">
                 Save Payment
@@ -108,14 +123,17 @@
         <thead class="table-dark">
 
             <tr>
-
+                
                 <th>Booking</th>
 
                 <th>Guest</th>
 
                 <th>Amount</th>
 
+                <th>CheckOut</th>
+
                 <th>Mode</th>
+
 
                 <th>Transaction</th>
 
@@ -136,6 +154,8 @@
                     <td>@item.GuestName</td>
 
                     <td>@item.Amount</td>
+
+                    <td>@item.CheckOutId</td>
 
                     <td>@item.PaymentMode</td>
 
@@ -175,6 +195,8 @@
     BookingId:$("#BookingId").val(),
 
     GuestId:$("#GuestId").val(),
+
+    CheckOutId: $("#CheckOutId").val(),
 
     Amount:$("#Amount").val(),
 
@@ -240,6 +262,8 @@
 
     $("#GuestId").val("");
 
+    $("#CheckOutId").val("");
+
     $("#Amount").val("");
 
     $("#PaymentMode").val("Cash");
@@ -263,6 +287,7 @@
                 $("#PaymentId").val(res.paymentId);
                 $("#BookingId").val(res.bookingId);
                 $("#GuestId").val(res.guestId);
+                $("#CheckOutId").val(res.checkOutId);
                 $("#Amount").val(res.amount);
                 $("#PaymentMode").val(res.paymentMode);
                 $("#TransactionNo").val(res.transactionNo);

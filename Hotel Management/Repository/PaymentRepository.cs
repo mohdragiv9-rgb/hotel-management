@@ -78,7 +78,7 @@ namespace HotelManagement.Repository
 
                     payment.CheckOutId,
                     payment.BookingId,
-                    payment.GuestId,
+                    payment.GuestId,         
                     payment.Amount,
                     payment.PaymentMode,
                     payment.TransactionNo,

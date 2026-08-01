@@ -19,16 +19,24 @@ namespace HotelManagement.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var rooms = await _roomRepository.GetAll();
+
+            var roomTypes = await _roomTypeRepository.GetAll();
+
             ViewBag.RoomTypes = new SelectList(
-                await _roomTypeRepository.GetAll(),
+                roomTypes,
                 "RoomTypeId",
-                "RoomTypeName");
+                "RoomTypeName"
+            );
 
-            var data = await _roomRepository.GetAll();
+            ViewBag.Prices = new SelectList(
+                roomTypes,
+                "Price",
+                "Price"
+            );
 
-            return View(data);
+            return View(rooms);
         }
-
         [HttpGet]
         public async Task<IActionResult> GetById(int id)
         {

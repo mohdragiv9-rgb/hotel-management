@@ -43,6 +43,7 @@ namespace HotelManagement.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var data = await _bookingRepository.GetById(id);
+
             return Json(data);
         }
 

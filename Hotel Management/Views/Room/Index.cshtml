@@ -4,13 +4,16 @@
     ViewData["Title"] = "Room";
 }
 <div class="container mt-4">
+
     <div class="card">
+
         <div class="card-header bg-success text-white">
+
             <h4>Room Entry</h4>
             </div>
           <div class="row">
 
-          <div class="col-md-3">
+          <div class="col-md-4">
 
              <label>Room Number</label>
 
@@ -21,7 +24,7 @@
             </div>
 
    
-               <div class="col-md-3">
+               <div class="col-md-4">
 
                 <label>Room Type</label>
 
@@ -56,53 +59,38 @@
     </div>
 
 </div>
-<div class="row mt-3">
+        <div class="row mt-3">
 
-    <div class="col-md-3">
+            <div class="col-md-3">
+                <label>Price</label>
 
-        <label>Price</label>
+                <select id="Price"
+                        class="form-control"
+                        asp-items="ViewBag.Prices">
+                    <option value="">Select Price</option>
+                </select>
+            </div>
 
-        <input type="number"
-               class="form-control"
-               id="Price" />
+            <div class="col-md-4">
+                <label>AC Type</label>
 
-    </div>
+                <select id="ACType" class="form-control">
+                    <option>AC</option>
+                    <option>Non AC</option>
+                </select>
+            </div>
 
-    <div class="col-md-3">
+            <div class="col-md-4">
+                <label>Status</label>
 
-        <label>AC Type</label>
+                <select id="RoomStatus" class="form-control">
+                    <option>Available</option>
+                    <option>Occupied</option>
+                    <option>Maintenance</option>
+                </select>
+            </div>
 
-        <select id="ACType"
-                class="form-control">
-
-            <option>AC</option>
-
-            <option>Non AC</option>
-
-        </select>
-
-    </div>
-
-    <div class="col-md-3">
-
-        <label>Status</label>
-
-        <select id="RoomStatus"
-                class="form-control">
-
-            <option>Available</option>
-
-            <option>Occupied</option>
-
-            <option>Maintenance</option>
-
-        </select>
-
-    </div>
-           
-           
-
-</div>
+        </div>
 <br />
 <br />
         <button class="btn btn-success col-md-1"onclick="SaveRoom()">

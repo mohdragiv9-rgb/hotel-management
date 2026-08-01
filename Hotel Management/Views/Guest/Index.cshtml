@@ -19,6 +19,15 @@
             <div class="row">
 
                 <div class="col-md-4">
+
+                    <label>ID Number</label>
+
+                    <input type="text"
+                           id="IdProofNumber"
+                           class="form-control" />
+
+                </div>
+                <div class="col-md-4">
                     <label>Guest Name</label>
                     <input type="text" id="GuestName" class="form-control" />
                 </div>
@@ -28,10 +37,7 @@
                     <input type="text" id="MobileNo" class="form-control" maxlength="10" />
                 </div>
 
-                <div class="col-md-4">
-                    <label>Email</label>
-                    <input type="email" id="Email" class="form-control" />
-                </div>
+               
 
             </div>
 
@@ -68,13 +74,8 @@
                 </div>
 
                 <div class="col-md-4">
-
-                    <label>ID Number</label>
-
-                    <input type="text"
-                           id="IdProofNumber"
-                           class="form-control" />
-
+                    <label>Email</label>
+                    <input type="email" id="Email" class="form-control" />
                 </div>
 
             </div>
@@ -98,20 +99,25 @@
 
                     <label>City</label>
 
-                    <input type="text"
-                           id="City"
-                           class="form-control" />
-
+                    <select id="City" class="form-select">
+                        <option value="">Select</option>
+                        <option>Bareilly </option>
+                        <option>Pilibhit</option>
+                        <option>Bisalpur</option>
+                        <option>Barkheda</option>
+                    </select>
                 </div>
 
                 <div class="col-md-4">
 
                     <label>State</label>
-
-                    <input type="text"
-                           id="State"
-                           class="form-control" />
-
+                    <select id="State" class="form-select">
+                        <option value="">Select</option>
+                        <option>Uttar Pradesh </option>
+                        <option>Uttrakhand</option>
+                        <option>Delhi</option>
+                        <option>Jaipur</option>
+                     </select>
                 </div>
 
             </div>
@@ -124,11 +130,13 @@
 
                     <label>Country</label>
 
-                    <input type="text"
-                           id="Country"
-                           class="form-control"
-                           value="India" />
-
+                    <select id="Country" class="form-select">
+                    <option value="">Select</option>
+                    <option>India </option>
+                    <option>Pakistan</option>
+                    <option>Nepal</option>
+                    <option>Afganistan</option>
+                    </select>
                 </div>
 
                 <div class="col-md-4">
