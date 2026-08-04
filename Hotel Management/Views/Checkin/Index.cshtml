@@ -53,7 +53,7 @@
             </div>
 
             <br />
-
+            
             <div class="row">
 
                 <div class="col-md-4">
@@ -109,8 +109,43 @@
         </div>
 
     </div>
+    <br />
+    <div class="card">
+        <div class="card-header bg-dark text-white">
+            <h5>Check-In List</h5>
+
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered table-hover">
+                <thead class="table-secondary">
+                    <tr>
+                        <th>Booking</th>
+                        <th>Check-In Date Time </th>
+                        <th>Total Guest </th>
+                        <th>ID Proof Type</th>
+                        <th>ID Proof No</th>
+                        <th>Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.BookingNo</td>
+                            <td>@item.CheckInDateTime</td>
+                            <td>@item.TotalGuest</td>
+                            <td>@item.IDProofType</td>
+                            <td>@item.IDProofNo</td>
+                            <td>@item.Remarks</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
 
 </div>
+
 
 <script>
 

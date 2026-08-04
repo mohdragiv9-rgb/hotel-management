@@ -3,182 +3,160 @@
 @{
     ViewData["Title"] = "Room";
 }
+
 <div class="container mt-4">
 
     <div class="card">
-
         <div class="card-header bg-success text-white">
-
             <h4>Room Entry</h4>
-            </div>
-          <div class="row">
+        </div>
 
-          <div class="col-md-4">
+        <div class="card-body">
 
-             <label>Room Number</label>
+            <div class="row">
 
-              <input type="text"
-               class="form-control"
-               id="RoomNumber" />
-
-            </div>
-
-   
-               <div class="col-md-4">
-
-                <label>Room Type</label>
-
-                    <select id="RoomTypeId"
-                          class="form-control"
-                                asp-items="ViewBag.RoomTypes">
-
-                                 <option value="">Select</option>
-
-                        </select>
-
+                <div class="col-md-4">
+                    <label>Room Number</label>
+                    <input type="text" class="form-control" id="RoomNumber" />
                 </div>
 
-    <div class="col-md-2">
+                <div class="col-md-4">
+                    <label>Room Type</label>
+                    <select id="RoomTypeId" class="form-control" asp-items="ViewBag.RoomTypes">
+                        <option value="">Select</option>
+                    </select>
+                </div>
 
-        <label>Floor</label>
+                <div class="col-md-4">
+                    <label>Floor</label>
+                    <input type="number" class="form-control" id="FloorNo" />
+                </div>
 
-        <input type="number"
-               class="form-control"
-               id="FloorNo" />
-
-    </div>
-
-    <div class="col-md-2">
-
-        <label>Capacity</label>
-
-        <input type="number"
-               class="form-control"
-               id="Capacity" />
-
-    </div>
-
-</div>
-        <div class="row mt-3">
-
-            <div class="col-md-3">
-                <label>Price</label>
-
-                <select id="Price"
-                        class="form-control"
-                        asp-items="ViewBag.Prices">
-                    <option value="">Select Price</option>
-                </select>
             </div>
 
-            <div class="col-md-4">
-                <label>AC Type</label>
+            <br />
 
-                <select id="ACType" class="form-control">
-                    <option>AC</option>
-                    <option>Non AC</option>
-                </select>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Capacity</label>
+                    <input type="number" class="form-control" id="Capacity" />
+                </div>
+
+                <div class="col-md-4">
+                    <label>Price</label>
+                    <select id="Price" class="form-control" asp-items="ViewBag.Prices">
+                        <option value="">Select Price</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>AC Type</label>
+                    <select id="ACType" class="form-control">
+                        <option>AC</option>
+                        <option>Non AC</option>
+                    </select>
+                </div>
+
             </div>
 
-            <div class="col-md-4">
-                <label>Status</label>
+            <br />
 
-                <select id="RoomStatus" class="form-control">
-                    <option>Available</option>
-                    <option>Occupied</option>
-                    <option>Maintenance</option>
-                </select>
+            <div class="row">
+
+                <div class="col-md-4">
+                    <label>Status</label>
+                    <select id="RoomStatus" class="form-control">
+                        <option>Available</option>
+                        <option>Occupied</option>
+                        <option>Maintenance</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <label>Description</label>
+                    <input type="text" class="form-control" id="Description" />
+                </div>
+
             </div>
+
+            <br />
+
+            <button class="btn btn-success" onclick="SaveRoom()">
+                Save
+            </button>
 
         </div>
-<br />
-<br />
-        <button class="btn btn-success col-md-1"onclick="SaveRoom()">
-            Save
-        </button>
-<br />
+
     </div>
-    
+
+    <br />
+
+    <div class="card">
+
+        <div class="card-header bg-dark text-white">
+            <h5>Room Entry List</h5>
+        </div>
+
+        <div class="card-body">
+
+            <table class="table table-bordered table-striped">
+
+                <thead class="table-dark">
+                    <tr>
+                        <th>Room Id</th>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
+                        <th>Room Type Name</th>
+                        <th>Floor</th>
+                        <th>Capacity</th>
+                        <th>Price</th>
+                        <th>AC Type</th>
+                        <th>Status</th>
+                        <th>Description</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.RoomId</td>
+                            <td>@item.RoomNumber</td>
+                            <td>@item.RoomTypeId</td>
+                            <td>@item.RoomTypeName</td>
+                            <td>@item.FloorNo</td>
+                            <td>@item.Capacity</td>
+                            <td>@item.Price</td>
+                            <td>@item.ACType</td>
+                            <td>@item.RoomStatus</td>
+                            <td>@item.Description</td>
+                          <td> 
+                              <button class="btn btn-warning btn-sm"
+                                       onclick="Edit(@item.RoomId)">
+                                         Edit
+                                  </button>
+                                       <button class="btn btn-danger btn-sm"
+                                      onclick="Delete(@item.RoomId)">
+                                        Delete
+                                     </button>
+                         </td>
+                        </tr>
+                    }
+                     
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
 </div>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
-<table class="table table-bordered table-striped">
-
-    <thead class="table-dark">
-
-        <tr>
-            <th>Room Id</th>
-
-            <th>Room Number</th>
-
-            <th>Room Type</th>
-
-            <th>Room Type Name</th>
-
-            <th>Floor</th>
-
-            <th>Capacity</th>
-
-            <th>Price</th>
-
-            <th>  AC Type </th>
-
-            <th>Status</th>
-
-            <th>Action</th>
-        </tr>
-
-    </thead>
-    <br />
-    
-    <br />
-    <br />
-    <tbody>
-
-        @foreach (var item in Model)
-        {
-            <tr>
-
-                <td>@item.RoomId</td>
-
-                <td>@item.RoomNumber</td>
-
-                <td>@item.RoomTypeId</td>
-
-                <td>@item.RoomTypeName</td>
-
-                <td>@item.FloorNo </td>
-
-                <td>@item.Capacity  </td>
-
-                <td>@item.Price </td>
-
-                <td>@item.ACType </td>
-
-                <td>@item.RoomStatus</td>
-
-                <td>@item.Description</td>
-
-               @*  <td>
-
-                    <button class="btn btn-warning btn-sm"
-                            onclick="Edit(@item.PaymentId)">
-                        Edit
-                    </button>
-
-                    <button class="btn btn-danger btn-sm"
-                            onclick="Delete(@item.PaymentId)">
-                        Delete
-                    </button>
-
-                </td> *@
-
-            </tr>
-        }
-
-    </tbody>
-
-</table>
-<br />
 
 <script>
 function SaveRoom(){
@@ -223,5 +201,79 @@ location.reload();
 
 });
 
+}
+function Delete(id){
+
+if(confirm("Delete Room Entry?")){
+
+    $.ajax({
+
+        url:'/Room/Delete',
+
+        type:'POST',
+
+         data:{id:id},
+
+         success:function(res){
+
+             alert(res.message);
+
+             location.reload();
+     }
+
+   });
+
+}
+
+}
+
+    function ClearData(){
+
+    $("#RoomId").val("");
+
+    $("#RoomNumber").val("");
+
+    $("#RoomTypeId").val(),
+
+    $("#FloorNo").val("");
+
+    $("#Capacity").val("");
+
+    $("#Price").val("");
+
+    $("#ACType").val("");
+
+    $("#RoomStatus").val("");
+
+    $("#Description").val("");
+
+    }
+
+
+function Edit(id){
+
+    $.ajax({
+
+        url:'Room/GetById',
+
+        type:'GET',
+
+        data: data:{id:id},
+
+        success:function(res){
+
+                $("#RoomId").val(res.RoomId);
+                $("#RoomNumber").val(res.RoomNumber);
+                $("#RoomTypeId").val(res.RoomTypeId);
+                $("#FloorNo").val(res.FloorNo);
+                $("#Capacity").val(res.Capacity);
+                $("#Price").val(res.Price);
+                $("#ACType").val(res.ACType);
+                $("#RoomStatus").val(res.RoomStatus);
+                $("#Description").val(res.Description);
+
+
+        }
+    });
 }
 </script>
