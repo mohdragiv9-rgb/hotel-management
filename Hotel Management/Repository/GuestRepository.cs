@@ -27,7 +27,7 @@ namespace HotelManagement.Repository
             return result.ToList();
         }
 
-        public async Task<Guest?> GetById(int id)
+        public async Task<Guest?>GetById(int id)
         {
             using var con = _context.CreateConnection();
 

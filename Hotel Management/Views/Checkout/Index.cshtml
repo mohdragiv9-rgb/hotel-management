@@ -357,6 +357,7 @@
 
             success: function (res) {
 
+
                 if (res.success) {
 
                     alert(res.message);
@@ -394,11 +395,12 @@
 
             success: function (res) {
 
+
                 $("#CheckOutId").val(res.checkOutId);
 
                 $("#CheckInId").val(res.checkInId);
 
-               $("#BookingId").val(res.bookingId).trigger("change");
+               $("#BookingId").val(res.bookingId);
 
                 $("#GuestId").val(res.guestId);
 
