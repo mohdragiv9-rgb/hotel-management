@@ -1,4 +1,4 @@
-﻿using Dapper;
+﻿   using Dapper;
 using HotelManagement.Data;
 using HotelManagement.Interfaces;
 using HotelManagement.Models;
@@ -115,7 +115,7 @@ namespace HotelManagement.Repository
             using var con = _context.CreateConnection();
 
             return await con.ExecuteAsync(
-                "USP_Guest",
+                "USP_Guest", 
                 new
                 {
                     Action = "UPDATE",

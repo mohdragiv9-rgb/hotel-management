@@ -27,6 +27,7 @@ namespace HotelManagement.Controllers
                 roomTypes,
                 "RoomTypeId",
                 "RoomTypeName"
+                
             );
 
             ViewBag.Prices = new SelectList(
