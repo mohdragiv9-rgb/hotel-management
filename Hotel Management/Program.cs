@@ -2,19 +2,7 @@ using HotelManagement.Data;
 using HotelManagement.Interfaces;
 using HotelManagement.Repository;
 
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    Args = args
-});
-
-builder.Configuration.AddJsonFile(
-    "appsettings.json",
-    optional: false,
-    reloadOnChange: false
-);
-
-var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
-builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
